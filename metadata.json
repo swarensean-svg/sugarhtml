@@ -1,0 +1,6 @@
+{
+  "name": "SugarWOD Workout Viewer",
+  "description": "A clean, mobile-first app-like viewer for Gym workout programming using SugarWOD feeds.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

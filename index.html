@@ -1,0 +1,683 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <title>Gym Workout Programming</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23d4931f'%3E%3Cpath d='M20.57 14.86L22 13.43l-1.43-1.43-1.43 1.43L17.7 12l.73-.73-2.12-2.12-1.44 1.44-2.12-2.12 1.44-1.44-2.12-2.12-3.6 3.6 4.24 4.24-1.44 1.44-1.44-1.44-1.44 1.44 1.44 1.44-1.44 1.44-1.44-1.44-3.6 3.6 2.12 2.12 1.44-1.44 2.12 2.12-1.44 1.44 2.12 2.12.73-.73 1.43 1.43-1.43 1.43 1.43 1.43z'/%3E%3C/svg%3E" />
+    
+    <style>
+      :root {
+        --bg-color: #111111;
+        --panel-bg: #1a1a1a;
+        --accent-color: #d4931f;
+        --text-primary: #ffffff;
+        --text-muted: #8e8e93;
+        --border-color: #262626;
+        --font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "SF Compact Text", "Helvetica Neue", Arial, sans-serif;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      body {
+        background-color: #0d0d0d;
+        color: var(--text-primary);
+        font-family: var(--font-family);
+        height: 100vh;
+        width: 100vw;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+      }
+
+      /* Native device framing on wide screens, full screen on mobile */
+      .app-wrapper {
+        width: 100%;
+        height: 100%;
+        max-width: 540px; /* Aligns with standard high-performance web-view designs */
+        background-color: var(--bg-color);
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        overflow: hidden;
+        border-left: 1px solid #1f1f1f;
+        border-right: 1px solid #1f1f1f;
+        box-shadow: 0 24px 64px rgba(0, 0, 0, 0.9);
+      }
+
+      @media (max-width: 540px) {
+        .app-wrapper {
+          max-width: 100%;
+          border-left: none;
+          border-right: none;
+          box-shadow: none;
+        }
+      }
+
+      /* Compact, premium top bar mimicking a premium gym app */
+      header {
+        background-color: var(--panel-bg);
+        border-bottom: 1px solid var(--border-color);
+        padding: 16px 20px 12px 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        z-index: 10;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+      }
+
+      .header-info {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .app-tag {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .gym-emblem {
+        width: 24px;
+        height: 24px;
+        background-color: rgb(212, 147, 31, 0.155);
+        border: 1px solid var(--accent-color);
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .gym-title {
+        font-size: 13px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        color: var(--text-primary);
+      }
+
+      .gym-title span {
+        color: var(--accent-color);
+      }
+
+      /* Active network status dot */
+      .sync-status {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 11px;
+        color: #30d158; /* iOS Vibrant Green */
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+      }
+
+      .status-pulse {
+        width: 6px;
+        height: 6px;
+        background-color: #30d158;
+        border-radius: 50%;
+        animation: pulse 1.8s infinite ease-in-out;
+        box-shadow: 0 0 6px rgba(48, 209, 88, 0.5);
+      }
+
+      @keyframes pulse {
+        0%, 100% { opacity: 0.4; }
+        50% { opacity: 1; transform: scale(1.15); }
+      }
+
+      /* Tab bar segment switcher design */
+      .tab-segment {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        background-color: #0f0f0f;
+        border-radius: 12px;
+        padding: 3px;
+        border: 1px solid var(--border-color);
+        position: relative;
+      }
+
+      .tab-btn {
+        background: none;
+        border: none;
+        color: var(--text-muted);
+        font-family: var(--font-family);
+        font-size: 13.5px;
+        font-weight: 700;
+        padding: 12px 10px;
+        cursor: pointer;
+        border-radius: 9px;
+        transition: all 0.25s cubic-bezier(0.25, 1, 0.5, 1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        outline: none;
+        z-index: 1;
+      }
+
+      .tab-btn.active {
+        color: var(--accent-color);
+        background-color: var(--panel-bg);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+      }
+
+      /* Tab icons visual styling */
+      .tab-icon {
+        width: 14px;
+        height: 14px;
+        fill: currentColor;
+      }
+
+      /* Date Selector bar styling */
+      .date-navigator {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background-color: #141414;
+        border-bottom: 1px solid var(--border-color);
+        padding: 8px 16px;
+        z-index: 9;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+      }
+
+      .date-nav-btn {
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid var(--border-color);
+        color: var(--text-primary);
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+        outline: none;
+      }
+
+      .date-nav-btn:hover {
+        background-color: rgba(255, 255, 255, 0.05);
+        border-color: var(--accent-color);
+      }
+
+      .date-nav-btn:active {
+        transform: scale(0.92);
+        background-color: rgba(212, 147, 31, 0.1);
+        border-color: var(--accent-color);
+        color: var(--accent-color);
+      }
+
+      .calendar-center {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 2px;
+        flex: 1;
+        text-align: center;
+      }
+
+      .date-text {
+        font-size: 14px;
+        font-weight: 700;
+        letter-spacing: 0.2px;
+        color: #ffffff;
+        transition: color 0.2s ease;
+      }
+
+      .today-reset-btn {
+        background: rgba(212, 147, 31, 0.12);
+        border: 1px solid rgba(212, 147, 31, 0.35);
+        color: var(--accent-color);
+        font-size: 10px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        padding: 3px 10px;
+        border-radius: 20px;
+        cursor: pointer;
+        outline: none;
+        transition: all 0.25s cubic-bezier(0.25, 1, 0.5, 1);
+        margin-top: 1px;
+      }
+
+      .today-reset-btn:hover {
+        background: rgba(212, 147, 31, 0.2);
+        border-color: var(--accent-color);
+      }
+
+      .today-reset-btn:active {
+        transform: scale(0.95);
+        background-color: rgba(212, 147, 31, 0.3);
+      }
+
+      /* Viewport and pane layout */
+      .viewport {
+        flex: 1;
+        position: relative;
+        background-color: var(--bg-color);
+        overflow: hidden;
+      }
+
+      .pane {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: none;
+        flex-direction: column;
+        transition: opacity 0.3s ease;
+      }
+
+      .pane.active {
+        display: flex;
+      }
+
+      /* Frame setup styling */
+      iframe {
+        border: none;
+        width: 100%;
+        height: 100%;
+        background-color: var(--bg-color);
+        -webkit-overflow-scrolling: touch;
+        overflow-y: auto;
+      }
+
+      /* Unified overlay loader */
+      .loader-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: var(--bg-color);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 5;
+        transition: opacity 0.35s cubic-bezier(0.25, 1, 0.5, 1), visibility 0.35s ease;
+        text-align: center;
+      }
+
+      .loader-overlay.hidden {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+      }
+
+      .spinner-widget {
+        position: relative;
+        width: 44px;
+        height: 44px;
+        margin-bottom: 18px;
+      }
+
+      .spinner-ring {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border: 2px solid rgba(255, 255, 255, 0.04);
+        border-radius: 50%;
+      }
+
+      .spinner-core {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border: 2px solid transparent;
+        border-top-color: var(--accent-color);
+        border-radius: 50%;
+        animation: rotate-spinner 0.85s infinite cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      @keyframes rotate-spinner {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+
+      .loader-caption {
+        font-size: 11.5px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        color: var(--text-muted);
+        animation: pulse-caption 1.6s infinite ease-in-out;
+      }
+
+      @keyframes pulse-caption {
+        0%, 100% { opacity: 0.6; }
+        50% { opacity: 1; }
+      }
+
+      /* Compact, premium bottom panel */
+      footer {
+        background-color: var(--panel-bg);
+        border-top: 1px solid var(--border-color);
+        padding: 12px 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 11px;
+        color: var(--text-muted);
+        font-weight: 600;
+        letter-spacing: 0.3px;
+        z-index: 10;
+        user-select: none;
+      }
+
+      .feed-source {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .feed-source span {
+        color: var(--accent-color);
+      }
+
+      .action-row {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+
+      .action-btn {
+        background: none;
+        border: none;
+        color: var(--text-muted);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 11px;
+        font-weight: 700;
+        font-family: var(--font-family);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        transition: color 0.15s ease;
+        outline: none;
+      }
+
+      .action-btn:hover, .action-btn:active {
+        color: var(--text-primary);
+      }
+
+      .action-btn:active svg {
+        transform: scale(0.9) rotate(-45deg);
+      }
+
+      .icon-action {
+        width: 12px;
+        height: 12px;
+        fill: currentColor;
+        transition: transform 0.25s ease;
+      }
+    </style>
+  </head>
+  <body>
+
+    <!-- Unified Master Shell -->
+    <div class="app-wrapper">
+
+      <!-- Navigation Header -->
+      <header>
+        <div class="header-info">
+          <div class="app-tag">
+            <div class="gym-emblem">
+              <!-- SVG Dumbbell Weight Element -->
+              <svg viewBox="0 0 24 24" class="tab-icon" style="color: var(--accent-color);">
+                <path fill="currentColor" d="M20.57 14.86L22 13.43l-1.43-1.43-1.43 1.43L17.7 12l.73-.73-2.12-2.12-1.44 1.44-2.12-2.12 1.44-1.44-2.12-2.12-3.6 3.6 4.24 4.24-1.44 1.44-1.44-1.44-1.44 1.44 1.44 1.44-1.44 1.44-1.44-1.44-3.6 3.6 2.12 2.12 1.44-1.44 2.12 2.12-1.44 1.44 2.12 2.12.73-.73 1.43 1.43-1.43 1.43 1.43 1.43z" />
+              </svg>
+            </div>
+            <div class="gym-title">Peak<span>Programming</span></div>
+          </div>
+          <div class="sync-status">
+            <span class="status-pulse"></span>
+            ACTIVE FEED
+          </div>
+        </div>
+
+        <nav class="tab-segment">
+          <button id="btn-wod" class="tab-btn active" onclick="switchTab('wod')">
+            <svg class="tab-icon" viewBox="0 0 24 24">
+              <path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z" />
+            </svg>
+            Daily WOD
+          </button>
+          <button id="btn-strength" class="tab-btn" onclick="switchTab('strength')">
+            <svg class="tab-icon" viewBox="0 0 24 24">
+              <path d="M20.57 14.86L22 13.43l-1.43-1.43-1.43 1.43L17.7 12l.73-.73-2.12-2.12-1.44 1.44-2.12-2.12 1.44-1.44-2.12-2.12-3.6 3.6 4.24 4.24-1.44 1.44-1.44-1.44-1.44 1.44 1.44 1.44-1.44 1.44-1.44-1.44-3.6 3.6 2.12 2.12 1.44-1.44 2.12 2.12-1.44 1.44 2.12 2.12.73-.73 1.43 1.43-1.43 1.43 1.43 1.43z" />
+            </svg>
+            Strength Circuit
+          </button>
+        </nav>
+      </header>
+
+      <!-- Date Selector Bar -->
+      <div class="date-navigator">
+        <button id="btn-prev-day" class="date-nav-btn" onclick="changeDay(-1)" aria-label="Previous Day">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+            <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+          </svg>
+        </button>
+        <div class="calendar-center">
+          <div id="date-display" class="date-text">Loading...</div>
+          <button id="btn-today-reset" class="today-reset-btn" onclick="resetToday()">Today</button>
+        </div>
+        <button id="btn-next-day" class="date-nav-btn" onclick="changeDay(1)" aria-label="Next Day">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+            <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Viewports for Feeds -->
+      <main class="viewport">
+
+        <!-- WORKOUT OF THE DAY VIEW -->
+        <div id="pane-wod" class="pane active">
+          <!-- Spinning Loading State Overlay -->
+          <div id="loader-wod" class="loader-overlay">
+            <div class="spinner-widget">
+              <div class="spinner-ring"></div>
+              <div class="spinner-core"></div>
+            </div>
+            <div class="loader-caption">Syncing Daily WOD...</div>
+          </div>
+          
+          <iframe 
+            id="iframe-wod"
+            src='https://app.sugarwod.com/public/api/v1/affiliates/HH4kDXcvgU/workouts/days/0...0/html?tracks=["workout-of-the-day"]'
+            onload="onIframeLoaded('wod')"
+            loading="lazy"
+            title="SugarWOD Workout Of The Day"
+            referrerpolicy="no-referrer">
+          </iframe>
+        </div>
+
+        <!-- STRENGTH CIRCUIT VIEW -->
+        <div id="pane-strength" class="pane">
+          <!-- Spinning Loading State Overlay -->
+          <div id="loader-strength" class="loader-overlay">
+            <div class="spinner-widget">
+              <div class="spinner-ring"></div>
+              <div class="spinner-core"></div>
+            </div>
+            <div class="loader-caption">Syncing Strength Circuit...</div>
+          </div>
+
+          <iframe 
+            id="iframe-strength"
+            src='https://app.sugarwod.com/public/api/v1/affiliates/HH4kDXcvgU/workouts/days/0...0/html?tracks=["Strength%20Circuit"]'
+            onload="onIframeLoaded('strength')"
+            loading="lazy"
+            title="SugarWOD Strength Circuit"
+            referrerpolicy="no-referrer">
+          </iframe>
+        </div>
+
+      </main>
+
+      <!-- Bottom Status & Action Bar -->
+      <footer>
+        <div class="feed-source">
+          Feed Powered by <span>SugarWOD</span>
+        </div>
+        <div class="action-row">
+          <button class="action-btn" onclick="refreshActiveFeed()">
+            <svg class="icon-action" viewBox="0 0 24 24">
+              <path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/>
+            </svg>
+            Refresh
+          </button>
+        </div>
+      </footer>
+
+    </div>
+
+    <script>
+      // Active state tracking
+      let activeTabId = 'wod';
+      let dayOffset = 0;
+
+      // Switch active visible pane and button state (wod or strength)
+      function switchTab(tabId) {
+        if (tabId === activeTabId) return;
+
+        // Cache tab DOM components
+        const btnWod = document.getElementById('btn-wod');
+        const btnStrength = document.getElementById('btn-strength');
+        const paneWod = document.getElementById('pane-wod');
+        const paneStrength = document.getElementById('pane-strength');
+
+        // Toggle button states
+        if (tabId === 'wod') {
+          btnWod.classList.add('active');
+          btnStrength.classList.remove('active');
+          paneWod.classList.add('active');
+          paneStrength.classList.remove('active');
+        } else {
+          btnWod.classList.remove('active');
+          btnStrength.classList.add('active');
+          paneWod.classList.remove('active');
+          paneStrength.classList.add('active');
+        }
+
+        activeTabId = tabId;
+      }
+
+      // Hide loading overlay once iframe finishes pulling from the SugarWOD CDN
+      function onIframeLoaded(tabId) {
+        const loader = document.getElementById('loader-' + tabId);
+        if (loader) {
+          loader.classList.add('hidden');
+        }
+      }
+
+      // Refresh button trigger to manually reload active visibility list
+      function refreshActiveFeed() {
+        const activeLoader = document.getElementById('loader-' + activeTabId);
+        const activeIframe = document.getElementById('iframe-' + activeTabId);
+        
+        if (activeLoader && activeIframe) {
+          activeLoader.classList.remove('hidden');
+          // Force refresh iframe content
+          activeIframe.src = activeIframe.src;
+        }
+      }
+
+      // Generate a user-friendly date label relative to dayOffset
+      function getFormattedDate(offset) {
+        const d = new Date();
+        d.setDate(d.getDate() + offset);
+
+        const options = { weekday: 'short', month: 'short', day: 'numeric' };
+        const formatted = d.toLocaleDateString('en-US', options);
+
+        if (offset === 0) {
+          return 'Today, ' + formatted;
+        } else if (offset === -1) {
+          return 'Yesterday, ' + formatted;
+        } else if (offset === 1) {
+          return 'Tomorrow, ' + formatted;
+        }
+        return formatted;
+      }
+
+      // Apply changes when changing dayOffset
+      function changeDay(delta) {
+        dayOffset += delta;
+        updateIframesAndDisplay();
+      }
+
+      // Quick reset to Today (dayOffset = 0)
+      function resetToday() {
+        if (dayOffset === 0) return;
+        dayOffset = 0;
+        updateIframesAndDisplay();
+      }
+
+      // Core controller for updating state, rendering labels, and pushing source changes to iframes
+      function updateIframesAndDisplay() {
+        const iframeWod = document.getElementById('iframe-wod');
+        const iframeStrength = document.getElementById('iframe-strength');
+        const loaderWod = document.getElementById('loader-wod');
+        const loaderStrength = document.getElementById('loader-strength');
+        const dateDisplay = document.getElementById('date-display');
+        const todayResetBtn = document.getElementById('btn-today-reset');
+
+        // Reveal loaders for smooth loading transition
+        if (loaderWod) loaderWod.classList.remove('hidden');
+        if (loaderStrength) loaderStrength.classList.remove('hidden');
+
+        // Dynamically compute the targeted single-day workout ranges
+        const srcWod = `https://app.sugarwod.com/public/api/v1/affiliates/HH4kDXcvgU/workouts/days/${dayOffset}...${dayOffset}/html?tracks=["workout-of-the-day"]`;
+        const srcStrength = `https://app.sugarwod.com/public/api/v1/affiliates/HH4kDXcvgU/workouts/days/${dayOffset}...${dayOffset}/html?tracks=["Strength%20Circuit"]`;
+
+        // Update iframes sources to reload the specific target day
+        if (iframeWod) iframeWod.src = srcWod;
+        if (iframeStrength) iframeStrength.src = srcStrength;
+
+        // Render formatted local dates
+        if (dateDisplay) {
+          dateDisplay.textContent = getFormattedDate(dayOffset);
+        }
+
+        // Toggle reset-to-today button visibility elegantly
+        if (todayResetBtn) {
+          if (dayOffset === 0) {
+            todayResetBtn.style.opacity = '0';
+            todayResetBtn.style.pointerEvents = 'none';
+          } else {
+            todayResetBtn.style.opacity = '1';
+            todayResetBtn.style.pointerEvents = 'auto';
+          }
+        }
+      }
+
+      // Initialize default views on startup
+      document.addEventListener('DOMContentLoaded', function() {
+        const dateDisplay = document.getElementById('date-display');
+        if (dateDisplay) {
+          dateDisplay.textContent = getFormattedDate(0);
+        }
+        
+        // Safety fallback timeout to prevent infinite loader spinners under spotty API network latency
+        setInterval(function() {
+          onIframeLoaded('wod');
+          onIframeLoaded('strength');
+        }, 5500);
+      });
+    </script>
+  </body>
+</html>
