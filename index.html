@@ -83,12 +83,13 @@
         display: flex;
         align-items: center;
         gap: 8px;
+        cursor: pointer;
       }
 
       .gym-emblem {
         width: 24px;
         height: 24px;
-        background-color: rgb(212, 147, 31, 0.155);
+        background-color: rgba(212, 147, 31, 0.155);
         border: 1px solid var(--accent-color);
         border-radius: 6px;
         display: flex;
@@ -177,86 +178,143 @@
         fill: currentColor;
       }
 
-      /* Date Selector bar styling */
-      .date-navigator {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
+      /* Calendar wrapper container */
+      .calendar-wrapper {
         background-color: #141414;
         border-bottom: 1px solid var(--border-color);
-        padding: 8px 16px;
+        padding: 14px 16px 12px 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
         z-index: 9;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
       }
 
-      .date-nav-btn {
-        background: rgba(255, 255, 255, 0.02);
-        border: 1px solid var(--border-color);
-        color: var(--text-primary);
-        width: 38px;
-        height: 38px;
-        border-radius: 50%;
+      /* Month & navigation row style */
+      .calendar-month-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 4px;
+      }
+
+      .calendar-month-text {
+        font-size: 18px; 
+        font-weight: 600;
+        color: #a1a1aa; /* Medium-light gray mirroring image_1.png */
+        letter-spacing: -0.3px;
+        font-family: var(--font-family);
+        user-select: none;
+      }
+
+      .calendar-nav-btn {
+        background: none;
+        border: none;
+        color: #71717a; /* Sleek medium gray */
         cursor: pointer;
         display: flex;
         align-items: center;
         justify-content: center;
-        transition: all 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        transition: all 0.2s ease;
         outline: none;
       }
 
-      .date-nav-btn:hover {
+      .calendar-nav-btn:hover {
+        color: var(--text-primary);
         background-color: rgba(255, 255, 255, 0.05);
-        border-color: var(--accent-color);
       }
 
-      .date-nav-btn:active {
-        transform: scale(0.92);
-        background-color: rgba(212, 147, 31, 0.1);
-        border-color: var(--accent-color);
-        color: var(--accent-color);
+      .calendar-nav-btn:active {
+        transform: scale(0.9);
       }
 
-      .calendar-center {
+      /* Weekly calendar grid */
+      .weekly-days-grid {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 4px;
+        text-align: center;
+        position: relative;
+      }
+
+      /* Day columns */
+      .calendar-day-col {
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 2px;
-        flex: 1;
-        text-align: center;
+        justify-content: center;
+        gap: 6px;
+        cursor: pointer;
+        padding: 6px 2px;
+        position: relative;
+        border-radius: 8px;
+        transition: background-color 0.15s ease;
       }
 
-      .date-text {
-        font-size: 14px;
-        font-weight: 700;
-        letter-spacing: 0.2px;
-        color: #ffffff;
+      .calendar-day-col:hover {
+        background-color: rgba(255, 255, 255, 0.03);
+      }
+
+      /* Day letter styling */
+      .calendar-day-col .day-letter {
+        font-size: 11px;
+        font-weight: 500;
+        color: #71717a; /* Medium light grey */
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
         transition: color 0.2s ease;
       }
 
-      .today-reset-btn {
-        background: rgba(212, 147, 31, 0.12);
-        border: 1px solid rgba(212, 147, 31, 0.35);
-        color: var(--accent-color);
-        font-size: 10px;
-        font-weight: 800;
-        text-transform: uppercase;
-        letter-spacing: 0.8px;
-        padding: 3px 10px;
-        border-radius: 20px;
-        cursor: pointer;
-        outline: none;
-        transition: all 0.25s cubic-bezier(0.25, 1, 0.5, 1);
-        margin-top: 1px;
+      /* Selected active state for day letter */
+      .calendar-day-col.active .day-letter {
+        color: #ffffff; /* contrasting lighter grey/white */
+        font-weight: 600;
       }
 
-      .today-reset-btn:hover {
-        background: rgba(212, 147, 31, 0.2);
-        border-color: var(--accent-color);
+      /* Day number wrap & actual number */
+      .calendar-day-col .day-number-wrap {
+        width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        transition: all 0.2s cubic-bezier(0.25, 1, 0.5, 1);
       }
 
-      .today-reset-btn:active {
-        transform: scale(0.95);
-        background-color: rgba(212, 147, 31, 0.3);
+      .calendar-day-col .day-number {
+        font-size: 15px; 
+        font-weight: 600;
+        color: #a1a1aa; /* standard inactive numbers style */
+      }
+
+      /* Active day highlight circle */
+      .calendar-day-col.active .day-number-wrap {
+        background-color: #d4931f; /* Golden-yellow/mustard circle */
+        box-shadow: 0 4px 10px rgba(212, 147, 31, 0.35);
+      }
+
+      .calendar-day-col.active .day-number {
+        color: #111111; /* Grey/dark contrasting color inside the gold circle */
+      }
+
+      /* Underline decoration as seen in image_1.png */
+      .calendar-day-col .active-indicator-line {
+        position: absolute;
+        bottom: -6px;
+        left: 28%;
+        right: 28%;
+        height: 2px;
+        background-color: transparent;
+        border-radius: 1px;
+        transition: background-color 0.2s ease;
+      }
+
+      .calendar-day-col.active .active-indicator-line {
+        background-color: #e4e4e7; /* Subtle matching accent line precisely mirroring the screenshot ornament */
       }
 
       /* Viewport and pane layout */
@@ -276,17 +334,20 @@
         display: none;
         flex-direction: column;
         transition: opacity 0.3s ease;
+        overflow: hidden;
       }
 
       .pane.active {
         display: flex;
       }
 
-      /* Frame setup styling */
+      /* Frame setup styling with 15% magnification */
       iframe {
         border: none;
-        width: 100%;
-        height: 100%;
+        width: 86.956%;
+        height: 86.956%;
+        transform: scale(1.15);
+        transform-origin: top left;
         background-color: var(--bg-color);
         -webkit-overflow-scrolling: touch;
         overflow-y: auto;
@@ -432,7 +493,7 @@
       <!-- Navigation Header -->
       <header>
         <div class="header-info">
-          <div class="app-tag">
+          <div class="app-tag" onclick="resetToday()" title="Reset to Today">
             <div class="gym-emblem">
               <!-- SVG Dumbbell Weight Element -->
               <svg viewBox="0 0 24 24" class="tab-icon" style="color: var(--accent-color);">
@@ -450,35 +511,38 @@
         <nav class="tab-segment">
           <button id="btn-wod" class="tab-btn active" onclick="switchTab('wod')">
             <svg class="tab-icon" viewBox="0 0 24 24">
-              <path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z" />
+              <path d="M19 3h-1V1h-2v2H8V1H6v3c0 1.1-.9 2-2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z" fill="currentColor" />
             </svg>
             Daily WOD
           </button>
           <button id="btn-strength" class="tab-btn" onclick="switchTab('strength')">
             <svg class="tab-icon" viewBox="0 0 24 24">
-              <path d="M20.57 14.86L22 13.43l-1.43-1.43-1.43 1.43L17.7 12l.73-.73-2.12-2.12-1.44 1.44-2.12-2.12 1.44-1.44-2.12-2.12-3.6 3.6 4.24 4.24-1.44 1.44-1.44-1.44-1.44 1.44 1.44 1.44-1.44 1.44-1.44-1.44-3.6 3.6 2.12 2.12 1.44-1.44 2.12 2.12-1.44 1.44 2.12 2.12.73-.73 1.43 1.43-1.43 1.43 1.43 1.43z" />
+              <path d="M20.57 14.86L22 13.43l-1.43-1.43-1.43 1.43L17.7 12l.73-.73-2.12-2.12-1.44 1.44-2.12-2.12 1.44-1.44-2.12-2.12-3.6 3.6 4.24 4.24-1.44 1.44-1.44-1.44-1.44 1.44 1.44 1.44-1.44 1.44-1.44-1.44-3.6 3.6 2.12 2.12 1.44-1.44 2.12 2.12-1.44 1.44 2.12 2.12.73-.73 1.43 1.43-1.43 1.43 1.43 1.43z" fill="currentColor" />
             </svg>
             Strength Circuit
           </button>
         </nav>
       </header>
 
-      <!-- Date Selector Bar -->
-      <div class="date-navigator">
-        <button id="btn-prev-day" class="date-nav-btn" onclick="changeDay(-1)" aria-label="Previous Day">
-          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
-            <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
-          </svg>
-        </button>
-        <div class="calendar-center">
-          <div id="date-display" class="date-text">Loading...</div>
-          <button id="btn-today-reset" class="today-reset-btn" onclick="resetToday()">Today</button>
+      <!-- Advanced Calendar-Style Date Selector Bar -->
+      <div class="calendar-wrapper">
+        <div class="calendar-month-row">
+          <button id="btn-prev-day" class="calendar-nav-btn" onclick="changeDay(-1)" aria-label="Previous Day">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+              <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+            </svg>
+          </button>
+          <div id="calendar-month" class="calendar-month-text">June 2026</div>
+          <button id="btn-next-day" class="calendar-nav-btn" onclick="changeDay(1)" aria-label="Next Day">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+              <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
+            </svg>
+          </button>
         </div>
-        <button id="btn-next-day" class="date-nav-btn" onclick="changeDay(1)" aria-label="Next Day">
-          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
-            <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
-          </svg>
-        </button>
+
+        <div id="weekly-days-grid" class="weekly-days-grid">
+          <!-- Calendar col structures dynamically rendered by JavaScript -->
+        </div>
       </div>
 
       <!-- Viewports for Feeds -->
@@ -546,21 +610,24 @@
     </div>
 
     <script>
-      // Active state tracking
+      // State configuration
       let activeTabId = 'wod';
-      let dayOffset = 0;
+      let dayOffset = 0; // Relative to today (0 = today, -1 = yesterday, etc.)
 
-      // Switch active visible pane and button state (wod or strength)
+      // Cache reference base of local 'today' to keep chronological continuity
+      const baseToday = new Date();
+
+      // Switch active track panel view (wod or strength)
       function switchTab(tabId) {
         if (tabId === activeTabId) return;
 
-        // Cache tab DOM components
+        // Cache tab DOM elements
         const btnWod = document.getElementById('btn-wod');
         const btnStrength = document.getElementById('btn-strength');
         const paneWod = document.getElementById('pane-wod');
         const paneStrength = document.getElementById('pane-strength');
 
-        // Toggle button states
+        // Toggle visual active selectors
         if (tabId === 'wod') {
           btnWod.classList.add('active');
           btnStrength.classList.remove('active');
@@ -569,14 +636,14 @@
         } else {
           btnWod.classList.remove('active');
           btnStrength.classList.add('active');
-          paneWod.classList.remove('active');
+          paneWod.classList.add('active');
           paneStrength.classList.add('active');
         }
 
         activeTabId = tabId;
       }
 
-      // Hide loading overlay once iframe finishes pulling from the SugarWOD CDN
+      // Hide loading overlay once iframe completes pulling data
       function onIframeLoaded(tabId) {
         const loader = document.getElementById('loader-' + tabId);
         if (loader) {
@@ -584,95 +651,130 @@
         }
       }
 
-      // Refresh button trigger to manually reload active visibility list
+      // Refresh currently active tab iframe content
       function refreshActiveFeed() {
         const activeLoader = document.getElementById('loader-' + activeTabId);
         const activeIframe = document.getElementById('iframe-' + activeTabId);
         
         if (activeLoader && activeIframe) {
           activeLoader.classList.remove('hidden');
-          // Force refresh iframe content
           activeIframe.src = activeIframe.src;
         }
       }
 
-      // Generate a user-friendly date label relative to dayOffset
-      function getFormattedDate(offset) {
-        const d = new Date();
-        d.setDate(d.getDate() + offset);
-
-        const options = { weekday: 'short', month: 'short', day: 'numeric' };
-        const formatted = d.toLocaleDateString('en-US', options);
-
-        if (offset === 0) {
-          return 'Today, ' + formatted;
-        } else if (offset === -1) {
-          return 'Yesterday, ' + formatted;
-        } else if (offset === 1) {
-          return 'Tomorrow, ' + formatted;
-        }
-        return formatted;
-      }
-
-      // Apply changes when changing dayOffset
+      // Incremental day changer (delta -1 or 1)
       function changeDay(delta) {
         dayOffset += delta;
         updateIframesAndDisplay();
       }
 
-      // Quick reset to Today (dayOffset = 0)
+      // Exact day pointer change
+      function setSpecificDay(offset) {
+        if (dayOffset === offset) return;
+        dayOffset = offset;
+        updateIframesAndDisplay();
+      }
+
+      // Standard home-to-today shortcut reset
       function resetToday() {
         if (dayOffset === 0) return;
         dayOffset = 0;
         updateIframesAndDisplay();
       }
 
-      // Core controller for updating state, rendering labels, and pushing source changes to iframes
+      // Core controller for updating state, rendering date timelines, and updating sources
       function updateIframesAndDisplay() {
         const iframeWod = document.getElementById('iframe-wod');
         const iframeStrength = document.getElementById('iframe-strength');
         const loaderWod = document.getElementById('loader-wod');
         const loaderStrength = document.getElementById('loader-strength');
-        const dateDisplay = document.getElementById('date-display');
-        const todayResetBtn = document.getElementById('btn-today-reset');
 
-        // Reveal loaders for smooth loading transition
+        // Show loading screens before refresh trigger
         if (loaderWod) loaderWod.classList.remove('hidden');
         if (loaderStrength) loaderStrength.classList.remove('hidden');
 
-        // Dynamically compute the targeted single-day workout ranges
+        // Recompute standard single-day URLs
         const srcWod = `https://app.sugarwod.com/public/api/v1/affiliates/HH4kDXcvgU/workouts/days/${dayOffset}...${dayOffset}/html?tracks=["workout-of-the-day"]`;
         const srcStrength = `https://app.sugarwod.com/public/api/v1/affiliates/HH4kDXcvgU/workouts/days/${dayOffset}...${dayOffset}/html?tracks=["Strength%20Circuit"]`;
 
-        // Update iframes sources to reload the specific target day
         if (iframeWod) iframeWod.src = srcWod;
         if (iframeStrength) iframeStrength.src = srcStrength;
 
-        // Render formatted local dates
-        if (dateDisplay) {
-          dateDisplay.textContent = getFormattedDate(dayOffset);
+        // Render our beautiful timeline
+        renderWeeklyTimeline();
+      }
+
+      // Render custom weekly calendar-style selector based on selected dayOffset
+      function renderWeeklyTimeline() {
+        const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        
+        // Calculate the selected date
+        const selectedDate = new Date(baseToday);
+        selectedDate.setDate(baseToday.getDate() + dayOffset);
+
+        // Render Month Year heading (e.g. "June 2026")
+        const monthHeader = document.getElementById('calendar-month');
+        if (monthHeader) {
+          monthHeader.textContent = `${monthNames[selectedDate.getMonth()]} ${selectedDate.getFullYear()}`;
         }
 
-        // Toggle reset-to-today button visibility elegantly
-        if (todayResetBtn) {
-          if (dayOffset === 0) {
-            todayResetBtn.style.opacity = '0';
-            todayResetBtn.style.pointerEvents = 'none';
-          } else {
-            todayResetBtn.style.opacity = '1';
-            todayResetBtn.style.pointerEvents = 'auto';
+        // Get the Sunday of the week containing selectedDate
+        const selectedDayOfWeek = selectedDate.getDay(); // 0 (Sunday) to 6 (Saturday)
+        
+        const weeklyDaysGrid = document.getElementById('weekly-days-grid');
+        if (weeklyDaysGrid) {
+          weeklyDaysGrid.innerHTML = ''; // Fresh rebuild
+
+          const dayAbbreviationLetters = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+
+          for (let i = 0; i < 7; i++) {
+            // Compute the target date for this iteration column relative to selectedDate or today
+            const targetOffsetForDay = dayOffset - selectedDayOfWeek + i;
+            
+            const targetDate = new Date(baseToday);
+            targetDate.setDate(baseToday.getDate() + targetOffsetForDay);
+
+            const isSelectedDay = (targetOffsetForDay === dayOffset);
+
+            // Container segment
+            const col = document.createElement('div');
+            col.className = 'calendar-day-col' + (isSelectedDay ? ' active' : '');
+            col.setAttribute('onclick', `setSpecificDay(${targetOffsetForDay})`);
+
+            // 1. Day Abbreviation Letter (S, M, T, W, ...)
+            const letterSpan = document.createElement('span');
+            letterSpan.className = 'day-letter';
+            letterSpan.textContent = dayAbbreviationLetters[i];
+
+            // 2. Day Number with circle highlight container
+            const numWrap = document.createElement('div');
+            numWrap.className = 'day-number-wrap';
+
+            const numSpan = document.createElement('span');
+            numSpan.className = 'day-number';
+            numSpan.textContent = targetDate.getDate();
+            numWrap.appendChild(numSpan);
+
+            // 3. Mini bottom accent line ornament matching image_1.png design
+            const accentLine = document.createElement('div');
+            accentLine.className = 'active-indicator-line';
+
+            // Stack components
+            col.appendChild(letterSpan);
+            col.appendChild(numWrap);
+            col.appendChild(accentLine);
+
+            weeklyDaysGrid.appendChild(col);
           }
         }
       }
 
-      // Initialize default views on startup
+      // Boot-up initializer
       document.addEventListener('DOMContentLoaded', function() {
-        const dateDisplay = document.getElementById('date-display');
-        if (dateDisplay) {
-          dateDisplay.textContent = getFormattedDate(0);
-        }
-        
-        // Safety fallback timeout to prevent infinite loader spinners under spotty API network latency
+        // Initial build of weekly slider highlight logic on load
+        renderWeeklyTimeline();
+
+        // Safety fallback timeout to prevent infinite overlays if SugarWOD CDN experiences heavy latency
         setInterval(function() {
           onIframeLoaded('wod');
           onIframeLoaded('strength');
