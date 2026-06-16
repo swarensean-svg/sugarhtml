@@ -9,12 +9,12 @@
     
     <style>
       :root {
-        --bg-color: #111111;
-        --panel-bg: #1a1a1a;
+        --bg-color: #ffffff;
+        --panel-bg: #f8f8f8;
         --accent-color: #d4931f;
-        --text-primary: #ffffff;
-        --text-muted: #8e8e93;
-        --border-color: #262626;
+        --text-primary: #111111;
+        --text-muted: #555555;
+        --border-color: #e5e5ea;
         --font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "SF Compact Text", "Helvetica Neue", Arial, sans-serif;
       }
 
@@ -26,7 +26,7 @@
       }
 
       body {
-        background-color: #0d0d0d;
+        background-color: #f2f2f7;
         color: var(--text-primary);
         font-family: var(--font-family);
         height: 100vh;
@@ -47,9 +47,9 @@
         flex-direction: column;
         position: relative;
         overflow: hidden;
-        border-left: 1px solid #1f1f1f;
-        border-right: 1px solid #1f1f1f;
-        box-shadow: 0 24px 64px rgba(0, 0, 0, 0.9);
+        border-left: 1px solid var(--border-color);
+        border-right: 1px solid var(--border-color);
+        box-shadow: 0 12px 36px rgba(0, 0, 0, 0.06);
       }
 
       @media (max-width: 540px) {
@@ -70,7 +70,7 @@
         flex-direction: column;
         gap: 12px;
         z-index: 10;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
       }
 
       .header-info {
@@ -89,7 +89,7 @@
       .gym-emblem {
         width: 24px;
         height: 24px;
-        background-color: rgba(212, 147, 31, 0.155);
+        background-color: rgba(212, 147, 31, 0.1);
         border: 1px solid var(--accent-color);
         border-radius: 6px;
         display: flex;
@@ -115,7 +115,7 @@
         align-items: center;
         gap: 6px;
         font-size: 11px;
-        color: #30d158; /* iOS Vibrant Green */
+        color: #24b244; /* Standard healthy green */
         font-weight: 600;
         letter-spacing: 0.5px;
         text-transform: uppercase;
@@ -124,10 +124,10 @@
       .status-pulse {
         width: 6px;
         height: 6px;
-        background-color: #30d158;
+        background-color: #24b244;
         border-radius: 50%;
         animation: pulse 1.8s infinite ease-in-out;
-        box-shadow: 0 0 6px rgba(48, 209, 88, 0.5);
+        box-shadow: 0 0 6px rgba(36, 178, 68, 0.4);
       }
 
       @keyframes pulse {
@@ -135,11 +135,11 @@
         50% { opacity: 1; transform: scale(1.15); }
       }
 
-      /* Tab bar segment switcher design */
+      /* Tab bar segment switcher design (iOS light mode style) */
       .tab-segment {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        background-color: #0f0f0f;
+        background-color: #efeff4;
         border-radius: 12px;
         padding: 3px;
         border: 1px solid var(--border-color);
@@ -167,8 +167,8 @@
 
       .tab-btn.active {
         color: var(--accent-color);
-        background-color: var(--panel-bg);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+        background-color: #ffffff;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
       }
 
       /* Tab icons visual styling */
@@ -180,17 +180,17 @@
 
       /* Calendar wrapper container */
       .calendar-wrapper {
-        background-color: #141414;
+        background-color: var(--bg-color);
         border-bottom: 1px solid var(--border-color);
         padding: 14px 16px 12px 16px;
         display: flex;
         flex-direction: column;
         gap: 12px;
         z-index: 9;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.01);
       }
 
-      /* Month & navigation row style */
+      /* Month & navigation row style - Image_1.png style with dark grey elements */
       .calendar-month-row {
         display: flex;
         align-items: center;
@@ -200,8 +200,8 @@
 
       .calendar-month-text {
         font-size: 18px; 
-        font-weight: 600;
-        color: #a1a1aa; /* Medium-light gray mirroring image_1.png */
+        font-weight: 700;
+        color: #27272a; /* Dark gray */
         letter-spacing: -0.3px;
         font-family: var(--font-family);
         user-select: none;
@@ -210,7 +210,7 @@
       .calendar-nav-btn {
         background: none;
         border: none;
-        color: #71717a; /* Sleek medium gray */
+        color: #71717a; /* Medium gray */
         cursor: pointer;
         display: flex;
         align-items: center;
@@ -224,7 +224,7 @@
 
       .calendar-nav-btn:hover {
         color: var(--text-primary);
-        background-color: rgba(255, 255, 255, 0.05);
+        background-color: rgba(0, 0, 0, 0.04);
       }
 
       .calendar-nav-btn:active {
@@ -255,14 +255,14 @@
       }
 
       .calendar-day-col:hover {
-        background-color: rgba(255, 255, 255, 0.03);
+        background-color: rgba(0, 0, 0, 0.02);
       }
 
       /* Day letter styling */
       .calendar-day-col .day-letter {
         font-size: 11px;
         font-weight: 500;
-        color: #71717a; /* Medium light grey */
+        color: #71717a; /* Darker/medium light gray */
         text-transform: uppercase;
         letter-spacing: 0.5px;
         transition: color 0.2s ease;
@@ -270,8 +270,8 @@
 
       /* Selected active state for day letter */
       .calendar-day-col.active .day-letter {
-        color: #ffffff; /* contrasting lighter grey/white */
-        font-weight: 600;
+        color: #111111; /* High contrast black */
+        font-weight: 700;
       }
 
       /* Day number wrap & actual number */
@@ -288,17 +288,17 @@
       .calendar-day-col .day-number {
         font-size: 15px; 
         font-weight: 600;
-        color: #a1a1aa; /* standard inactive numbers style */
+        color: #52525b; /* Darker gray for inactive numbers */
       }
 
       /* Active day highlight circle */
       .calendar-day-col.active .day-number-wrap {
         background-color: #d4931f; /* Golden-yellow/mustard circle */
-        box-shadow: 0 4px 10px rgba(212, 147, 31, 0.35);
+        box-shadow: 0 4px 10px rgba(212, 147, 31, 0.25);
       }
 
       .calendar-day-col.active .day-number {
-        color: #111111; /* Grey/dark contrasting color inside the gold circle */
+        color: #ffffff; /* White high-contrast text inside the gold circle for clean readability */
       }
 
       /* Underline decoration as seen in image_1.png */
@@ -314,7 +314,7 @@
       }
 
       .calendar-day-col.active .active-indicator-line {
-        background-color: #e4e4e7; /* Subtle matching accent line precisely mirroring the screenshot ornament */
+        background-color: #3f3f46; /* Matching dark line ornament beneath active highlight */
       }
 
       /* Viewport and pane layout */
@@ -341,12 +341,12 @@
         display: flex;
       }
 
-      /* Frame setup styling with 15% magnification */
+      /* Frame setup styling with 20% magnification */
       iframe {
         border: none;
-        width: 86.956%;
-        height: 86.956%;
-        transform: scale(1.15);
+        width: 83.333%;
+        height: 83.333%;
+        transform: scale(1.20);
         transform-origin: top left;
         background-color: var(--bg-color);
         -webkit-overflow-scrolling: touch;
@@ -387,7 +387,7 @@
         position: absolute;
         width: 100%;
         height: 100%;
-        border: 2px solid rgba(255, 255, 255, 0.04);
+        border: 2px solid rgba(0, 0, 0, 0.04);
         border-radius: 50%;
       }
 
@@ -411,7 +411,7 @@
         font-weight: 700;
         text-transform: uppercase;
         letter-spacing: 1.5px;
-        color: var(--text-muted);
+        color: #52525b;
         animation: pulse-caption 1.6s infinite ease-in-out;
       }
 
@@ -532,7 +532,7 @@
               <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
             </svg>
           </button>
-          <div id="calendar-month" class="calendar-month-text">June 2026</div>
+          <div id="calendar-month" class="calendar-month-text">Loading...</div>
           <button id="btn-next-day" class="calendar-nav-btn" onclick="changeDay(1)" aria-label="Next Day">
             <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
               <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
@@ -636,7 +636,7 @@
         } else {
           btnWod.classList.remove('active');
           btnStrength.classList.add('active');
-          paneWod.classList.add('active');
+          paneWod.classList.remove('active');
           paneStrength.classList.add('active');
         }
 
